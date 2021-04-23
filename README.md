@@ -15,4 +15,11 @@
       </a>
 </li>
 
+<li>
+      <a href="https://github.com/Laura-ElenaOlaru/C-Sharp-Projects/tree/main/Tourist%20Attractions"> 
+			   Tourist Attractions
+	<img src="https://user-images.githubusercontent.com/57533863/115914345-7de42080-a47a-11eb-88cf-5c87a5fba14c.png">
+      </a>
+</li>
+
 </ul>
