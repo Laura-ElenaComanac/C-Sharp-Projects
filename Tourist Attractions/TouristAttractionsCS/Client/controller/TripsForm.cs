@@ -8,22 +8,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Services;
 using TouristAttractions.model;
+using Services;
 using TouristAttractionsCS.utils;
 
 namespace TouristAttractionsCS.controller
 {
     public partial class TripsForm : Form, IObserver
     {
-        public ClientController clientController;
-        public LoginForm loginForm;
+        public IService service;
+        //public event EventHandler<ChatUserEventArgs> updateEvent;
+        LoginForm loginForm;
         public AgencyUser AgencyUser;
 
-        public TripsForm(ClientController clientController)
+        public TripsForm()
         {
             InitializeComponent();
-            this.clientController = clientController;
+        }
+
+        public void setService(IService service)
+        {
+            this.service = service;
+            //tripsDataGridView.DataSource = service.FindAllTrips();         
         }
 
         internal void SetLogin(LoginForm loginForm)
@@ -58,9 +64,9 @@ namespace TouristAttractionsCS.controller
         {
             try
             {
-                tripsDataGridView.DataSource = clientController.FindAllTrips();
+                tripsDataGridView.DataSource = service.FindAllTrips();
                 if(touristAttracionTextBox.Text != "" && hour1TextBox.Text != "" && hour2TextBox.Text!="")
-                    searchedTripsDataGridView.DataSource = clientController.SearchTripByTouristAttractionAndLeavingHour(touristAttracionTextBox.Text, TimeSpan.Parse(hour1TextBox.Text), TimeSpan.Parse(hour2TextBox.Text));
+                    searchedTripsDataGridView.DataSource = service.SearchTripByTouristAttractionAndLeavingHour(touristAttracionTextBox.Text, TimeSpan.Parse(hour1TextBox.Text), TimeSpan.Parse(hour2TextBox.Text));
             }
             catch(Exception e)
             {
@@ -73,11 +79,11 @@ namespace TouristAttractionsCS.controller
         {
             try
             {
-                searchedTripsDataGridView.DataSource = clientController.SearchTripByTouristAttractionAndLeavingHour(touristAttracionTextBox.Text, TimeSpan.Parse(hour1TextBox.Text), TimeSpan.Parse(hour2TextBox.Text));
+                searchedTripsDataGridView.DataSource = service.SearchTripByTouristAttractionAndLeavingHour(touristAttracionTextBox.Text, TimeSpan.Parse(hour1TextBox.Text), TimeSpan.Parse(hour2TextBox.Text));
             }
-            catch(Exception exc)
+            catch
             {
-                MessageBox.Show(exc.Message, "Error");
+                MessageBox.Show("Wrong data!", "Error");
             }
         }
 
@@ -104,12 +110,10 @@ namespace TouristAttractionsCS.controller
                 else
                 {
                     trip.NrSeats = trip.NrSeats - nrTickets;
-                    clientController.UpdateTrip(trip);
+                    service.UpdateTrip(trip);
 
-                    Reservation reservation = new Reservation(clientController.GetReservationsSize() + 1, nrTickets, client, telephone, AgencyUser.Id, trip.Id);
-                    clientController.AddReservation(reservation);
-
-                    clientController.NotifyServer();
+                    Reservation reservation = new Reservation(service.GetReservationsSize() + 1, nrTickets, client, telephone, AgencyUser.Id, trip.Id);
+                    service.AddReservation(reservation);
                 }
             }
             catch (Exception exc)
@@ -126,7 +130,7 @@ namespace TouristAttractionsCS.controller
 
         delegate void SetDataCallback(DataGridView tripsDgv, IEnumerable<Trip> trips);
 
-        public void BookedTrip(IEnumerable<Trip> trips)
+        public void bookedTrip(IEnumerable<Trip> trips)
         {
             Console.WriteLine("bookedTrip1");
             tripsDataGridView.BeginInvoke(new SetDataCallback(this.SetSourcesTrips), new object[] { tripsDataGridView, trips });

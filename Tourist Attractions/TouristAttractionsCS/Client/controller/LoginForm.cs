@@ -11,51 +11,50 @@ using TouristAttractions.model;
 using TouristAttractionsCS.controller;
 using Services;
 using TouristAttractionsCS.utils;
-using transformer;
 
 namespace TouristAttractionsCS
 {
     public partial class LoginForm : Form
     {
-        public ClientController clientController;
-        public TripsForm tripsForm;
-        public int port;
+        public IService service;
 
-        public LoginForm(ClientController clientController)
+        TripsForm tripsForm;
+
+        public LoginForm()
         {
             InitializeComponent();
-            this.clientController = clientController;
         }
 
-        public void setTripsForm(TripsForm tripsForm, int port)
+        public void setTripsForm(TripsForm tripsForm)
         {
             this.tripsForm = tripsForm;
-            this.port = port;
         }
 
-        public void bookedTrip(IEnumerable<TouristAttractions.model.Trip> trips)
+        public void bookedTrip(IEnumerable<Trip> trips)
         {
             throw new NotImplementedException();
         }
 
+        public void setService(IService service)
+        {
+            this.service = service;
+        }
+
         private void loginButton_Click(object sender, EventArgs e)
         {
-            TouristAttractions.model.AgencyUser agencyUser = new TouristAttractions.model.AgencyUser(-1, usernameTextBox.Text, passwordTextBox.Text);
+            AgencyUser agencyUser;
 
-            clientController.Login(agencyUser);
+            service.Login(new AgencyUser(-1, usernameTextBox.Text, passwordTextBox.Text), tripsForm);
 
-            TouristAttractions.model.AgencyUser searchedAgencyUser = clientController.SearchAgencyUserByUserNameAndPassword(usernameTextBox.Text, passwordTextBox.Text);
+            agencyUser = service.SearchAgencyUserByUserNameAndPassword(usernameTextBox.Text, passwordTextBox.Text);
 
-            if (searchedAgencyUser != null)
-            {
-                clientController.server.addObserver(port);
-                showTripsDialog(searchedAgencyUser);
-            }
+            if (agencyUser != null)
+                showTripsDialog(agencyUser);
             else
                 MessageBox.Show("This Agency User doesn't exist!", "Error");
         }
 
-        private void showTripsDialog(TouristAttractions.model.AgencyUser agencyUser)
+        private void showTripsDialog(AgencyUser agencyUser)
         {
             try
             {

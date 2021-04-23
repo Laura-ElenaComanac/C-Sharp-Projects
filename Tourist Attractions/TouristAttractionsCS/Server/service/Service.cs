@@ -34,7 +34,7 @@ namespace TouristAttractionsCS.service
                 if (loggedAgencyUsers.ContainsKey(a.Id))
                 {
                     IObserver observer = loggedAgencyUsers[a.Id];
-                    observer.BookedTrip(TripRepository.FindAll());
+                    observer.bookedTrip(TripRepository.FindAll());
                 }
             }
         }

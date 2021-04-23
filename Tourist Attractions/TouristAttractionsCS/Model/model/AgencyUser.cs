@@ -5,10 +5,6 @@ namespace TouristAttractions.model
     [Serializable]
     public class AgencyUser : Entity<int>
     {
-        public AgencyUser()
-        {
-        }
-
         public AgencyUser(int Id, String UserName, String Password)
         {
             this.UserName = UserName;

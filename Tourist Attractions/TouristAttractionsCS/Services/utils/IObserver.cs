@@ -9,6 +9,6 @@ namespace TouristAttractionsCS.utils
 {
     public interface IObserver
     {
-        void BookedTrip(IEnumerable<Trip> trips);
+        void bookedTrip(IEnumerable<Trip> trips);
     }
 }

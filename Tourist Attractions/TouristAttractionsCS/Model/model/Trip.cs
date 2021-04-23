@@ -5,10 +5,6 @@ namespace TouristAttractions.model
     [Serializable]
     public class Trip : Entity<int>
     {
-        public Trip()
-        {
-        }
-
         public Trip(int Id, String TouristAttraction, String TransportCompany, TimeSpan LeavingHour, double Price, int NrSeats)
         {
             this.Id = Id;

@@ -267,7 +267,7 @@ namespace Networking
             IEnumerable<Trip> trips = responseR.Trips;
             try
             {
-                client.BookedTrip(trips);
+                client.bookedTrip(trips);
             }
             catch (TouristAttractiontException e)
             {

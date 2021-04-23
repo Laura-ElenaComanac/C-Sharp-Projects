@@ -256,7 +256,7 @@ namespace Networking
             return response;
         }
 
-        public void BookedTrip(IEnumerable<Trip> trips)
+        public void bookedTrip(IEnumerable<Trip> trips)
         {
             try
             {
