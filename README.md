@@ -3,7 +3,7 @@
 <ul>
   
 <li>
-      <a href="https://github.com/Laura-ElenaOlaru/C-Sharp-Projects/tree/main/Contest%20-%20C%23"> 
+      <a href="https://github.com/Laura-ElenaOlaru/C-Sharp-Projects/tree/main/Contest%20"> 
 			   Contest - C#
       </a>
 </li>
