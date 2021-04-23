@@ -1,4 +1,4 @@
-# Movies Management C#
+# Movies Management C# .NET Windows Forms
 # Add, Update, Delete movies from any one-to-many table relationship (Movies -> Cinema Projections)
 
 <ul>
